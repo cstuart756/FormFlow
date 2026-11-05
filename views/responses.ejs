@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Responses — <%= form.title %></title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="hero">
+    <h1>Responses: <%= form.title %></h1>
+    <p><%= responses.length %> response(s)</p>
+  </header>
+  <main class="container">
+    <div class="card">
+      <% if (responses.length === 0) { %>
+        <p>No responses yet.</p>
+      <% } else { %>
+        <table>
+          <thead>
+            <tr>
+              <th>Submitted</th>
+              <% form.fields.forEach(f => { %><th><%= f.label %></th><% }); %>
+            </tr>
+          </thead>
+          <tbody>
+            <% responses.forEach(r => { %>
+              <tr>
+                <td><%= new Date(r.submittedAt).toLocaleString() %></td>
+                <% form.fields.forEach(f => { %>
+                  <td><%= r.answers[f.name] || '' %></td>
+                <% }); %>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      <% } %>
+    </div>
+  </main>
+</body>
+</html>

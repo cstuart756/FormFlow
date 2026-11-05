@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= form.title %></title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="hero">
+    <h1><%= form.title %></h1>
+    <% if (form.description) { %><p><%= form.description %></p><% } %>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <form method="POST" action="/f/<%= form.id %>" id="publicForm">
+        <% form.fields.forEach((field, idx) => { %>
+          <div class="form-field" data-index="<%= idx %>"
+               <% if (field.condition) { %>data-cond-field="<%= field.condition.fieldIndex %>" data-cond-value="<%= field.condition.value %>" style="display:none;"<% } %>>
+            <label><%= field.label %></label>
+            <% if (field.type === 'textarea') { %>
+              <textarea name="<%= field.name %>"></textarea>
+            <% } else { %>
+              <input type="<%= field.type %>" name="<%= field.name %>">
+            <% } %>
+          </div>
+        <% }); %>
+        <button type="submit" class="primary">Submit</button>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    function evaluateConditions() {
+      const fields = document.querySelectorAll('.form-field');
+      fields.forEach(field => {
+        const condFieldIdx = field.dataset.condField;
+        if (condFieldIdx === undefined) return;
+        const condValue = field.dataset.condValue;
+        const sourceField = document.querySelector(`.form-field[data-index="${condFieldIdx}"] input, .form-field[data-index="${condFieldIdx}"] textarea`);
+        if (!sourceField) return;
+        
+        if (sourceField.value.trim().toLowerCase() === condValue.trim().toLowerCase()) {
+          field.style.display = 'block';
+        } else {
+          field.style.display = 'none';
+          const input = field.querySelector('input, textarea');
+          if (input) input.value = ''; // Clear hidden fields so they don't submit empty data
+        }
+      });
+    }
+    // Run on every keystroke
+    document.addEventListener('input', evaluateConditions);
+    // Run once on load
+    evaluateConditions();
+  </script>
+</body>
+</html>

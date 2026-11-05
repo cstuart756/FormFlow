@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FormFlow — Conditional Logic Forms</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="hero">
+    <h1>FormFlow</h1>
+    <p>Build conditional logic forms in minutes. No code required.</p>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <h2>Create a Form</h2>
+
+      <label>Form Title
+        <input type="text" id="formTitle" placeholder="e.g. Pet Owner Survey">
+      </label>
+
+      <label>Description (optional)
+        <input type="text" id="formDescription" placeholder="e.g. Help us understand your pets">
+      </label>
+
+      <h3>Fields</h3>
+      <div id="fields"></div>
+      <button type="button" class="secondary" onclick="addField()">+ Add Field</button>
+
+      <hr>
+      <button type="button" class="primary" onclick="createForm()">Create Form</button>
+      <div id="result"></div>
+    </div>
+  </main>
+
+  <script src="/builder.js"></script>
+</body>
+</html>
